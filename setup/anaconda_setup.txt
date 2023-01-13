@@ -1,0 +1,10 @@
+conda create --name sudoku python=3.10
+conda activate sudoku
+conda install jupyter
+ipython kernel install --name "sudoku-kernel" --user
+conda install -c conda-forge requests
+conda install -c conda-forge bs4
+conda install -c conda-forge tqdm
+conda clean --all
+conda deactivate
+
