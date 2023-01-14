@@ -43,5 +43,16 @@
             "justMyCode": true,
             "args": ["sudokuDataset.csv", "solverStats.csv", "solverErrors.txt", "100"]
         }
+        ,
+        {
+            "name": "Sudoku adv solver with arguments",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "python": "${fileDirname}/sudoku/Scripts/python.exe",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["sudokuDataset.csv", "solverStats.csv", "solverErrors.txt", "2", "1", "1"]
+        }
     ]
 }
