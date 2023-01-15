@@ -1,14 +1,50 @@
 """
 Data cleaning and Util functions
 
-Author: Frankie Inguanez <br />
-Date: 13/01/2023<br /><br />
+Author: Frankie Inguanez
+Date: 13/01/2023
 
 A series of utility functions to clean and check a sudoku puzzle.
 """
 
-# Get number of lines in a file
+class SudokuStats:
+    def __init__(self):
+        self.guesses = 0
+        self.backtracks = 0
+        self.startTime = None
+        self.endTime = None
+
+    def incrementGuesses(self):
+        self.guesses += 1
+
+    def incrementBacktracks(self):
+        self.backtracks += 1
+
+    def registerStartTime(self):
+        import time
+
+        self.startTime = time.time()
+
+    def registerEndTime(self):
+        import time
+
+        self.endTime = time.time()
+
+    def guesses(self):
+        return self.guesses
+
+    def backtracks(self):
+        return self.backtracks
+
+    def executionTime(self):
+        return self.endTime-self.startTime
+
 def getFileLineCount(fileName):
+    """
+    Get number of lines in a file.
+    Arguments:
+        fileName: the name of the file to process.
+    """
     import mmap
 
     lines = 0
@@ -19,9 +55,14 @@ def getFileLineCount(fileName):
             lines += 1
 
     return lines
-
-# Saves an error
+    
 def saveError(error, errorsFileName):
+    """
+    Saves an error/exception that is raised.
+    Arguments:
+        error: the Exception that is raised.
+        errorsFileName: the file name where the error will be saved.
+    """
     try:
         with open(errorsFileName, "a", encoding="utf-8") as ef:
             ef.write("Encountered error:\n{}\n{}\n{}\n\n".format(type(error), error.args, error))
@@ -29,32 +70,69 @@ def saveError(error, errorsFileName):
         # Failed to save error to file
         print("Failed to save original error to file due to:\n{}\n{}\n{}\n\n".format(type(e), e.args, e))
         print("Original error:\n{}\n{}\n{}\n\n".format(type(error), error.args, error))
+        
 
-# Convert a string to a 2D 9x9 array.
 def to2DArray(n):
+    """
+    Convert a string to a 2D 9x9 array.
+    Arguments:
+        n: an 81 digits in string format.
+    """
     return [list(map(int, n[i:i+9])) for i in range(0, 81, 9)]
 
-# Get column values
+def toStr(puzzle):
+    """
+    Converts a puzzle to a string.
+    Arguments:
+        puzzle: a 2 dimensional array representing the 9x9 puzzle. 
+    """
+    r = ""
+
+    for row in puzzle:
+        r += "".join(map(str, row))
+
+    return r
+
 def getColValues(puzzle, col):
+    """
+    Get column values.
+    Arguments:
+        puzzle: a 2 dimensional array representing the 9x9 puzzle. 
+        col: the column number.
+    """
     lst = []
     for row in puzzle:
         lst.append(row[col])
 
     return lst;
 
-# Get box values. Boxes are 3x3 sub-grids enumerates from top left in a raster fashion
-# 0, 1, 2
-# 3, 4, 5
-# 6, 7, 8
 def getBoxValues(puzzle, box):
+    """
+    Get box values. Boxes are 3x3 sub-grids enumerates from top left in a raster fashion
+    0, 1, 2
+    3, 4, 5
+    6, 7, 8
+    Arguments:
+        puzzle: a 2 dimensional array representing the 9x9 puzzle.
+        box: the box identification number.
+    """
     return [puzzle[x][y] for x in range((box//3)*3,((box//3)*3)+3) for y in range((box%3)*3, ((box%3)*3)+3)]
 
-# Check if a list of digits contain all values from 1 to 9
 def checkList(lst):
+    """
+    Checks if a list contains all numbers from 1 to 9.
+    Arguments:
+        lst: the list of numbers.
+    """
     return set(lst) == set(range(1,10))
 
-# Check if a puzzle has been solved
 def isSolved(puzzle):
+    """
+    Check if a puzzle has been solved.
+    Arguments:
+        puzzle: a 2 dimensional array representing the 9x9 puzzle.
+    """
+
     # Check rows
     for row in puzzle:
         if not checkList(row):
@@ -72,8 +150,15 @@ def isSolved(puzzle):
 
     return True
 
-# Checks if a number can be added to a specific position
 def isValid(puzzle, num, pos):
+    """
+    Checks if a number can be added to a specific position
+    Arguments:
+        puzzle: a 2 dimensional array representing the 9x9 puzzle.
+        num: the number to insert.
+        pos: the row and column position to place the digit.
+    """
+    
     # Check the row
     for i in range(len(puzzle[0])):
         if puzzle[pos[0]][i]==num and pos[1] != i:

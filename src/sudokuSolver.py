@@ -1,4 +1,58 @@
-from sudokuBaseSolverAlg import *
+import sudokuSolverAlg as solver
+import sudokuPuzzleUtils as spu
+
+def solvePuzzles(puzzlesFileName, statsFileName, errorsFileName, limit, searchMode, guessMode):
+    """
+    Solves puzzles found in a file using backtracking algorithm.
+    Arguments:
+        puzzlesFileName: file containing puzzles in following format: <id>, <puzzle>, <solution>
+        statsFileName: file where statistics shall be saved.
+        errorsFileName: file where errors shall be saved.
+        limit: the limit number of puzzles to solve.
+        searchMode: defines how missing values are searched.
+        guessMode: defines how guesses are made.
+    """
+    import tqdm
+
+    if not limit:
+        limit = spu.getFileLineCount(puzzlesFileName)
+
+    i = 1
+    hasError = False
+    try:
+        print("Starting sudoku base solver.")
+        
+        with open(statsFileName, "w", encoding="utf-8") as sf:
+            with open(puzzlesFileName, "r", encoding="utf-8") as pf:
+                for line in tqdm.tqdm(pf, total=limit):
+                    # Stop at limit
+                    if (i>limit):
+                        break
+                    
+                    # Parse the content
+                    data = line.split(',')
+                    p = data[1].strip()
+
+                    # Create board and statistics
+                    board = spu.to2DArray(p)
+                    stats = spu.SudokuStats();
+
+                    # Start statistics gathering and solve
+                    stats.registerStartTime()
+                    solver.backtracking(board, stats, searchMode, guessMode)
+                    stats.registerEndTime()
+                        
+                    # Write statistics
+                    sf.write("{},{},{:0.22f},{:0.0f},{:0.0f}\n".format(p, spu.toStr(board), stats.executionTime(), stats.guesses, stats.backtracks))
+                    i+=1
+
+    except Exception as e:
+        hasError = True
+        spu.saveError(e, errorsFileName)
+
+    print("Operation encountered some errors. Check {} for details or script output above.".format(errorsFileName) \
+        if hasError else "Sudoku puzzles solved completed successfully.")
+    print("Sudoku solver statistics saved in {}".format(statsFileName))
 
 def main():
     import argparse
@@ -14,7 +68,7 @@ def main():
 
     args = parser.parse_args()
 
-    solvePuzzles(args.puzzles, args.stats, args.errors, args.limit)
+    solvePuzzles(args.puzzles, args.stats, args.errors, args.limit, args.search, args.guess)
 
 if (__name__=="__main__"):
     main()
