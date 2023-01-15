@@ -7,12 +7,23 @@ Date: 13/01/2023
 A series of utility functions to clean and check a sudoku puzzle.
 """
 
+class SudokuExecutor:
+    def __init__(self, puzzlesFileName: str, statsFileName: str, errorsFileName: str, limit: int):
+        self.puzzlesFileName=puzzlesFileName
+        self.statsFileName=statsFileName
+        self.errorsFileName=errorsFileName
+        self.limit=limit
+
+class SudokuConfig:
+    def __init__(self, searchMode: int, guessMode: int):
+        self.searchMode=searchMode
+        self.guessMode=guessMode
+
 class SudokuStats:
     def __init__(self):
         self.guesses = 0
         self.backtracks = 0
-        self.startTime = None
-        self.endTime = None
+        self.executionTime = None
 
     def incrementGuesses(self):
         self.guesses += 1
@@ -20,26 +31,13 @@ class SudokuStats:
     def incrementBacktracks(self):
         self.backtracks += 1
 
-    def registerStartTime(self):
-        import time
+    def registerExecutionTime(self, executionTime):
+        self.executionTime=executionTime
 
-        self.startTime = time.time()
+    def setUnknowns(self, zeros:int):
+        self.unknowns=zeros
 
-    def registerEndTime(self):
-        import time
-
-        self.endTime = time.time()
-
-    def guesses(self):
-        return self.guesses
-
-    def backtracks(self):
-        return self.backtracks
-
-    def executionTime(self):
-        return self.endTime-self.startTime
-
-def getFileLineCount(fileName):
+def getFileLineCount(fileName: str):
     """
     Get number of lines in a file.
     Arguments:
@@ -56,7 +54,7 @@ def getFileLineCount(fileName):
 
     return lines
     
-def saveError(error, errorsFileName):
+def saveError(error, errorsFileName: str):
     """
     Saves an error/exception that is raised.
     Arguments:
@@ -72,7 +70,7 @@ def saveError(error, errorsFileName):
         print("Original error:\n{}\n{}\n{}\n\n".format(type(error), error.args, error))
         
 
-def to2DArray(n):
+def to2DArray(n: str):
     """
     Convert a string to a 2D 9x9 array.
     Arguments:
@@ -93,7 +91,7 @@ def toStr(puzzle):
 
     return r
 
-def getColValues(puzzle, col):
+def getColValues(puzzle, col: int):
     """
     Get column values.
     Arguments:
@@ -106,7 +104,7 @@ def getColValues(puzzle, col):
 
     return lst;
 
-def getBoxValues(puzzle, box):
+def getBoxValues(puzzle, box: int):
     """
     Get box values. Boxes are 3x3 sub-grids enumerates from top left in a raster fashion
     0, 1, 2
@@ -118,7 +116,7 @@ def getBoxValues(puzzle, box):
     """
     return [puzzle[x][y] for x in range((box//3)*3,((box//3)*3)+3) for y in range((box%3)*3, ((box%3)*3)+3)]
 
-def checkList(lst):
+def checkList(lst: list):
     """
     Checks if a list contains all numbers from 1 to 9.
     Arguments:
@@ -150,7 +148,7 @@ def isSolved(puzzle):
 
     return True
 
-def isValid(puzzle, num, pos):
+def isValid(puzzle, num: int, pos):
     """
     Checks if a number can be added to a specific position
     Arguments:

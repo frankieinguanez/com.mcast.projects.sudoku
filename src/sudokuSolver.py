@@ -1,7 +1,7 @@
-import sudokuSolverAlg as solver
+import sudokuSolvers as solvers
 import sudokuPuzzleUtils as spu
 
-def solvePuzzles(puzzlesFileName, statsFileName, errorsFileName, limit, searchMode, guessMode):
+def solvePuzzles(executor: spu.SudokuExecutor, config: spu.SudokuConfig):
     """
     Solves puzzles found in a file using backtracking algorithm.
     Arguments:
@@ -13,17 +13,24 @@ def solvePuzzles(puzzlesFileName, statsFileName, errorsFileName, limit, searchMo
         guessMode: defines how guesses are made.
     """
     import tqdm
+    import timeit
 
-    if not limit:
-        limit = spu.getFileLineCount(puzzlesFileName)
+    if not executor.limit:
+        limit = spu.getFileLineCount(executor.puzzlesFileName)
+    else: limit = executor.limit
 
     i = 1
     hasError = False
     try:
         print("Starting sudoku base solver.")
         
-        with open(statsFileName, "w", encoding="utf-8") as sf:
-            with open(puzzlesFileName, "r", encoding="utf-8") as pf:
+        # Open statistics file
+        with open(executor.statsFileName, "w", encoding="utf-8") as sf:
+            #Write header row
+            sf.write("Puzzle,Solution,Execution Time,Zeros,Guesses,Backtracks\n")
+
+            # Open puzzles and read till limit is reached.
+            with open(executor.puzzlesFileName, "r", encoding="utf-8") as pf:
                 for line in tqdm.tqdm(pf, total=limit):
                     # Stop at limit
                     if (i>limit):
@@ -35,24 +42,22 @@ def solvePuzzles(puzzlesFileName, statsFileName, errorsFileName, limit, searchMo
 
                     # Create board and statistics
                     board = spu.to2DArray(p)
+                    
                     stats = spu.SudokuStats();
-
-                    # Start statistics gathering and solve
-                    stats.registerStartTime()
-                    solver.backtracking(board, stats, searchMode, guessMode)
-                    stats.registerEndTime()
+                    stats.setUnknowns(p.count('0'))
+                    stats.registerExecutionTime(timeit.timeit(lambda: solvers.backtracking(board, stats, config), number=100000))                   
                         
                     # Write statistics
-                    sf.write("{},{},{:0.22f},{:0.0f},{:0.0f}\n".format(p, spu.toStr(board), stats.executionTime(), stats.guesses, stats.backtracks))
+                    sf.write("{},{},{:0.17f},{:0.0f},{:0.0f},{:0.0f}\n".format(p, spu.toStr(board), stats.executionTime, stats.unknowns, stats.guesses, stats.backtracks))
                     i+=1
 
     except Exception as e:
         hasError = True
-        spu.saveError(e, errorsFileName)
+        spu.saveError(e, executor.errorsFileName)
 
-    print("Operation encountered some errors. Check {} for details or script output above.".format(errorsFileName) \
+    print("Operation encountered some errors. Check {} for details or script output above.".format(executor.errorsFileName) \
         if hasError else "Sudoku puzzles solved completed successfully.")
-    print("Sudoku solver statistics saved in {}".format(statsFileName))
+    print("Sudoku solver statistics saved in {}".format(executor.statsFileName))
 
 def main():
     import argparse
@@ -67,8 +72,10 @@ def main():
     parser.add_argument("guess", help="defines how numbers are guessed: 1 sequentially; 2 randomly.", type=int)
 
     args = parser.parse_args()
+    config = spu.SudokuConfig(searchMode=args.search, guessMode=args.guess)
+    exec = spu.SudokuExecutor(puzzlesFileName=args.puzzles,statsFileName=args.stats, errorsFileName=args.errors, limit=args.limit)
 
-    solvePuzzles(args.puzzles, args.stats, args.errors, args.limit, args.search, args.guess)
+    solvePuzzles(executor=exec, config=config)
 
 if (__name__=="__main__"):
     main()

@@ -5,7 +5,6 @@ ipython kernel install --name "sudoku-kernel" --user
 conda install -c conda-forge requests
 conda install -c conda-forge bs4
 conda install -c conda-forge tqdm
-conda install -c conda-forge matplotlib
 conda clean --all
 conda deactivate
 
