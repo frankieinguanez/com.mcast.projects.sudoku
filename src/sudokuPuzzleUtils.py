@@ -8,10 +8,11 @@ A series of utility functions to clean and check a sudoku puzzle.
 """
 
 class SudokuExecutor:
-    def __init__(self, puzzlesFileName: str, statsFileName: str, errorsFileName: str, limit: int):
+    def __init__(self, puzzlesFileName: str, statsFileName: str, errorsFileName: str, offset: int, limit: int):
         self.puzzlesFileName=puzzlesFileName
         self.statsFileName=statsFileName
         self.errorsFileName=errorsFileName
+        self.offset=offset
         self.limit=limit
 
 class SudokuConfig:

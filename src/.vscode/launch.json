@@ -52,7 +52,7 @@
             "python": "${fileDirname}/sudoku/Scripts/python.exe",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["sudokuDataset.csv", "backtracking.csv", "solverErrors.txt", "10", "1", "1"]
+            "args": ["sudokuDataset.csv", "backtracking.csv", "solverErrors.txt", "0", "10", "1", "1"]
         }
     ]
 }
