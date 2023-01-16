@@ -17,10 +17,10 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "python": "${fileDirname}/sudoku/Scripts/python.exe",
+            "python": "${fileDirname}/sudoku-venv/Scripts/python.exe",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["sudokuDataset.csv", "solverStats.csv", "solverErrors.txt", "0", "10", "1", "1"]
+            "args": ["balanced_24_45_zeros.txt", "solverStats.csv", "solverErrors.txt", "0", "10", "1", "1"]
         }
         ,
         {
@@ -28,7 +28,7 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "python": "${fileDirname}/sudoku/Scripts/python.exe",
+            "python": "${fileDirname}/sudoku-venv/Scripts/python.exe",
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": ["100008509000000000460000000600000000085020047094600302000003090920000700000107005", "tracking.csv", "stats.csv", "solverErrors.txt", "1", "1"]

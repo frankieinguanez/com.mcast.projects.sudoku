@@ -37,15 +37,16 @@ def solvePuzzles(executor: spu.SudokuExecutor, config: spu.SudokuConfig):
                         break
 
                     # Create board and statistics
-                    board = spu.to2DArray(line)
+                    puzzle=line.strip()
+                    board = spu.to2DArray(puzzle)
                     
                     stats = spu.SudokuStats();
-                    stats.setUnknowns(line.count('0'))
+                    stats.setUnknowns(puzzle.count('0'))
                     stats.registerExecutionTime(timeit.timeit(lambda: solvers.backtracking(board, None, stats, config), number=1000))                   
                         
                     # Write statistics
                     sf.write("{},{},{:0.17f},{:0.0f},{:0.0f},{:0.0f}\n"\
-                        .format(line, spu.toStr(board), stats.executionTime, stats.unknowns, stats.guesses, stats.backtracks))
+                        .format(puzzle, spu.toStr(board), stats.executionTime, stats.unknowns, stats.guesses, stats.backtracks))
                     i+=1
 
     except Exception as e:
