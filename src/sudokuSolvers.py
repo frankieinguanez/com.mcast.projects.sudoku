@@ -11,7 +11,7 @@ import sudokuSearchAlg as ssa
 import sudokuGuessAlg as sga
 import sudokuPuzzleUtils as spu
 
-def backtracking(board, stats: spu.SudokuStats, config: spu.SudokuConfig):
+def backtracking(board: list, history: list, stats: spu.SudokuStats, config: spu.SudokuConfig):
     """
     Solves a 9x9 sudoku puzzle using backtracking algorithm.
     Arguments:
@@ -37,11 +37,16 @@ def backtracking(board, stats: spu.SudokuStats, config: spu.SudokuConfig):
             stats.incrementGuesses()
             board[row][col] = guess
 
+            if config.tracking:
+                history.append(spu.toStr(board))
+
             # Attempt to solve rest of puzzle with current choice
-            if backtracking(board, stats, config):
+            if backtracking(board, history, stats, config):
                 return True
 
             # Invalid puzzle so backtrack
+            if config.tracking:
+                history.remove(spu.toStr(board))
             stats.incrementBacktracks()
             board[row][col] = 0
 

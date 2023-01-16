@@ -1,5 +1,0 @@
-Encountered error:
-<class 'AttributeError'>
-("'SudokuConfig' object has no attribute 'offset'",)
-'SudokuConfig' object has no attribute 'offset'
-

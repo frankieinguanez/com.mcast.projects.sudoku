@@ -6,6 +6,7 @@ conda install -c conda-forge requests
 conda install -c conda-forge bs4
 conda install -c conda-forge tqdm
 conda install -c conda-forge matplotlib
+conda install -c conda-forge pandas
 conda clean --all
 conda deactivate
 

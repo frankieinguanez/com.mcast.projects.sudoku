@@ -13,46 +13,25 @@
             "justMyCode": true
         },
         {
-            "name": "Sudoku scraper with arguments",
+            "name": "Solve multiple puzzles",
             "type": "python",
             "request": "launch",
             "program": "${file}",
             "python": "${fileDirname}/sudoku/Scripts/python.exe",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["1021", "1031", "sudokuDataset.csv", "scraperErrors.txt"]
-        },
-        {
-            "name": "Sudoku evaluator with arguments",
-            "type": "python",
-            "request": "launch",
-            "program": "${file}",
-            "python": "${fileDirname}/sudoku/Scripts/python.exe",
-            "console": "integratedTerminal",
-            "justMyCode": true,
-            "args": ["sudokuDataset.csv", "evaluatorStats.csv", "evaluatorErrors.txt"]
+            "args": ["sudokuDataset.csv", "solverStats.csv", "solverErrors.txt", "0", "10", "1", "1"]
         }
         ,
         {
-            "name": "Sudoku base solver with arguments",
+            "name": "Solve single with tracking",
             "type": "python",
             "request": "launch",
             "program": "${file}",
             "python": "${fileDirname}/sudoku/Scripts/python.exe",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["sudokuDataset.csv", "solverStats.csv", "solverErrors.txt", "100"]
-        }
-        ,
-        {
-            "name": "Sudoku adv solver with arguments",
-            "type": "python",
-            "request": "launch",
-            "program": "${file}",
-            "python": "${fileDirname}/sudoku/Scripts/python.exe",
-            "console": "integratedTerminal",
-            "justMyCode": true,
-            "args": ["sudokuDataset.csv", "backtracking.csv", "solverErrors.txt", "0", "10", "1", "1"]
+            "args": ["100008509000000000460000000600000000085020047094600302000003090920000700000107005", "tracking.csv", "stats.csv", "solverErrors.txt", "1", "1"]
         }
     ]
 }

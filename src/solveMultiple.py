@@ -35,20 +35,17 @@ def solvePuzzles(executor: spu.SudokuExecutor, config: spu.SudokuConfig):
                     # Stop at limit
                     if (i>limit):
                         break
-                    
-                    # Parse the content
-                    data = line.split(',')
-                    p = data[1].strip()
 
                     # Create board and statistics
-                    board = spu.to2DArray(p)
+                    board = spu.to2DArray(line)
                     
                     stats = spu.SudokuStats();
-                    stats.setUnknowns(p.count('0'))
-                    stats.registerExecutionTime(timeit.timeit(lambda: solvers.backtracking(board, stats, config), number=100000))                   
+                    stats.setUnknowns(line.count('0'))
+                    stats.registerExecutionTime(timeit.timeit(lambda: solvers.backtracking(board, None, stats, config), number=1000))                   
                         
                     # Write statistics
-                    sf.write("{},{},{:0.17f},{:0.0f},{:0.0f},{:0.0f}\n".format(p, spu.toStr(board), stats.executionTime, stats.unknowns, stats.guesses, stats.backtracks))
+                    sf.write("{},{},{:0.17f},{:0.0f},{:0.0f},{:0.0f}\n"\
+                        .format(line, spu.toStr(board), stats.executionTime, stats.unknowns, stats.guesses, stats.backtracks))
                     i+=1
 
     except Exception as e:
@@ -73,8 +70,8 @@ def main():
     parser.add_argument("guess", help="defines how numbers are guessed: 1 sequentially; 2 randomly.", type=int)
 
     args = parser.parse_args()
-    config = spu.SudokuConfig(searchMode=args.search, guessMode=args.guess)
-    exec = spu.SudokuExecutor(puzzlesFileName=args.puzzles,statsFileName=args.stats, errorsFileName=args.errors, offset=args.offset, limit=args.limit)
+    config = spu.SudokuConfig(searchMode=args.search, guessMode=args.guess, tracking=False)
+    exec = spu.SudokuExecutor(puzzlesFileName=args.puzzles, trackingFileName=None, statsFileName=args.stats, errorsFileName=args.errors, offset=args.offset, limit=args.limit)
 
     solvePuzzles(executor=exec, config=config)
 

@@ -8,23 +8,26 @@ A series of utility functions to clean and check a sudoku puzzle.
 """
 
 class SudokuExecutor:
-    def __init__(self, puzzlesFileName: str, statsFileName: str, errorsFileName: str, offset: int, limit: int):
+    def __init__(self, puzzlesFileName: str, trackingFileName:str, statsFileName: str, errorsFileName: str, offset: int, limit: int):
         self.puzzlesFileName=puzzlesFileName
+        self.trackingFileName=trackingFileName
         self.statsFileName=statsFileName
         self.errorsFileName=errorsFileName
         self.offset=offset
         self.limit=limit
 
 class SudokuConfig:
-    def __init__(self, searchMode: int, guessMode: int):
+    def __init__(self, searchMode: int, guessMode: int, tracking: bool):
         self.searchMode=searchMode
         self.guessMode=guessMode
+        self.tracking=tracking
 
 class SudokuStats:
     def __init__(self):
         self.guesses = 0
         self.backtracks = 0
         self.executionTime = None
+        self.unknowns = 0
 
     def incrementGuesses(self):
         self.guesses += 1

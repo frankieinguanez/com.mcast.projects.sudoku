@@ -1,9 +1,6 @@
 pip3 install virtualenv
 python -m venv sudoku
 .\sudoku\Scripts\activate
-pip3 install jupyter
+python -m pip install -r requirements.txt
 ipython kernel install --name "sudoku-kernel" --user
-pip3 install requests
-pip3 install bs4
-pip3 install tqdm
 .\sudoku\Scripts\deactivate

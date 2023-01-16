@@ -52,17 +52,26 @@ def findByBox(puzzle, mode):
     Finds the next empty cell searching first by box then by row.
     Arguments:
         puzzle: a 9x9 sudoku puzzle
-        mode: 3 searches for boxes sequentially, 4 searches for boxes in a zig-zag fashion, 5 searches for boxes in spiral fashion, 6 searches for boxes in a semi zig-zag fashion.
+        mode:   4 searches for boxes sequentially, 
+                5 searches for boxes in a zig-zag fashion, 
+                6 searches for boxes in spiral fashion, 
+                7 searches for boxes in a semi zig-zag fashion,
+                8 searches for boxes randomly
     """
+    import random
 
-    if mode==3:
+    if mode==4:
         boxes=range(0,9)
-    elif mode==4:
-        boxes=[0,1,2,5,4,3,6,7,8]
     elif mode==5:
+        boxes=[0,1,2,5,4,3,6,7,8]
+    elif mode==6:
         boxes=[0,1,2,5,8,7,6,3,4]
-    else:
+    elif mode==7:
         boxes=[0,1,4,3,6,7,8,5,2]
+    elif mode==8:
+        boxes=random.sample(range(0,9),9)
+    elif mode==9:
+        boxes=[0,4,8,1,2,3,5,6,7]
 
     for box in boxes:
         for row in range((box//3)*3,((box//3)*3)+3):
@@ -80,19 +89,21 @@ def findEmpty(puzzle, searchMode):
         searchMode: defines how the puzzle is parsed: 
                     1 by row; 
                     2 by col; 
-                    3 by box sequentially; 
-                    4 by box in a zig-zag; 
-                    5 by box in a spiral; 
-                    6 by box in a semi-zig-zag;
-                    7 randomly
+                    3 random;
+                    4 by box sequentially; 
+                    5 by box in a zig-zag; 
+                    6 by box in a spiral; 
+                    7 by box in a semi-zig-zag;
+                    8 by box randomly;
+                    9 by box diagonal;
     """
     if searchMode==1:
         return findByRow(puzzle)
     elif searchMode==2:
         return findByCol(puzzle)
-    elif searchMode>=3 and searchMode<=6:
-        return findByBox(puzzle, searchMode)
-    elif searchMode==7:
+    elif searchMode==3:
         return findRandom(puzzle)
+    elif searchMode>=4 and searchMode<=9:
+        return findByBox(puzzle, searchMode)
     
     return None
