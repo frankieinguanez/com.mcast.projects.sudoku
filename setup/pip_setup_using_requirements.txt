@@ -1,6 +1,6 @@
 pip3 install virtualenv
-python -m venv sudoku
-.\sudoku\Scripts\activate
+python -m venv sudoku-venv
+.\sudoku-venv\Scripts\activate
 python -m pip install -r requirements.txt
 ipython kernel install --name "sudoku-kernel" --user
-.\sudoku\Scripts\deactivate
+.\sudoku-venv\Scripts\deactivate

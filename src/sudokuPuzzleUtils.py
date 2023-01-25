@@ -73,7 +73,6 @@ def saveError(error, errorsFileName: str):
         print("Failed to save original error to file due to:\n{}\n{}\n{}\n\n".format(type(e), e.args, e))
         print("Original error:\n{}\n{}\n{}\n\n".format(type(error), error.args, error))
         
-
 def to2DArray(n: str):
     """
     Convert a string to a 2D 9x9 array.

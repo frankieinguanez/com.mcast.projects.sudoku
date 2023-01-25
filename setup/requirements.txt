@@ -18,9 +18,11 @@ cycler==0.11.0
 debugpy==1.6.5
 decorator==5.1.1
 defusedxml==0.7.1
+distlib==0.3.6
 entrypoints==0.4
 executing==1.2.0
 fastjsonschema==2.16.2
+filelock==3.8.0
 fonttools==4.38.0
 fqdn==1.5.1
 idna==3.4
@@ -43,6 +45,7 @@ jupyter_server_terminals==0.4.4
 jupyterlab-pygments==0.2.2
 jupyterlab-widgets==3.0.5
 kiwisolver==1.4.4
+llvmlite==0.39.1
 MarkupSafe==2.1.1
 matplotlib==3.6.3
 matplotlib-inline==0.1.6
@@ -54,7 +57,8 @@ nbformat==5.7.3
 nest-asyncio==1.5.6
 notebook==6.5.2
 notebook_shim==0.2.2
-numpy==1.24.1
+numba==0.56.4
+numpy==1.23.5
 packaging==23.0
 pandas==1.5.2
 pandocfilters==1.5.0
@@ -94,6 +98,7 @@ tqdm==4.64.1
 traitlets==5.8.1
 uri-template==1.2.0
 urllib3==1.26.14
+virtualenv==20.16.5
 wcwidth==0.2.5
 webcolors==1.12
 webencodings==0.5.1

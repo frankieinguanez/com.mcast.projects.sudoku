@@ -6,7 +6,7 @@ Date: 16/01/2023
 
 A sudoku puzzle generator.
 """
-
+import random
 import sudokuPuzzleUtils as spu
 import sudokuSolvers as solver
 
@@ -17,8 +17,6 @@ def generatePuzzle(count: int, zeros: int):
         count: the number of puzzles to generate.
         zeros: the number of zeros desired in each puzzle.
     """
-    import random
-
     puzzles = []
     for i in range(count):
         puzzle = '000000000000000000000000000000000000000000000000000000000000000000000000000000000'

@@ -3,7 +3,6 @@ import sudokuPuzzleUtils as spu
 import argparse
 import timeit
 
-
 def main():
     # Register arguments
     parser = argparse.ArgumentParser();
